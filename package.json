@@ -1,8 +1,9 @@
 {
   "name": "telegraf-cmd-handler",
-  "version": "1.1.2",
+  "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "license": "GPL-3.0",
+  "repository": "https://github.com/VanPonasenkov/telegraf-cmd-handler",
   "dependencies": {
     "@types/node": "^16.6.2",
     "fs": "^0.0.1-security",

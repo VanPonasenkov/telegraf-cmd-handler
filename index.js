@@ -4,12 +4,16 @@ const Command = require("./command");
 const Event = require("./event");
 const process = require("process");
 
+/**
+ * @description Config Object (Modify by using setEdirs function)
+ */
 let edirs = {
   cmdDir: "",
   cmdImportDIr: "",
   evDir: "",
   evImportDIr: "",
 };
+
 const findCommand = (cmdl, commandName) => {
   for (cmd of cmdl) {
     if (cmd.aliases && cmd.aliases.includes(commandName)) {
@@ -50,44 +54,46 @@ const getEvents = (dirs) => {
   return events;
 };
 
+const getCommands = (dirs) => {
+  let commands = new Map();
+  const commandFiles = fs.readdirSync(dirs.evDir);
+  for (const file of commandFiles) {
+    const command = require(`${dirs.evImportDIr}${file}`);
+    const co = new command();
+    commands.set(co.name, co);
+  }
+  return commands;
+};
+
 function execStickerEv(ctx, evl) {
   findEv(evl, "sticker").execute(ctx);
+}
+
+function execPhotoEv(ctx, evl) {
+  findEv(evl, "photo").execute(ctx);
+}
+
+function execAudioEv(ctx, evl) {
+  findEv(evl, "audio").execute(ctx);
 }
 
 /**
  * @param {*} bot telegraf instance
  * @param {number} handlertype type of the handler, pass by using HANDLERENUM values, HANDLERENUM.COMMAND by default
- * @param {string} dir represents the directory path, '${__dirname}\\commands' by default
- * @param {string} importdir represents the directory path from which files are imported, './commands/' by default
  */
 
-const handlerInit = (
-  bot,
-  handlertype = HANDLERENUM.COMMAND,
-  dir = `${process.cwd()}\\commands`,
-  importdir = `${process.cwd()}/commands/`
-) => {
+const handlerInit = (bot, handlertype = HANDLERENUM.COMMAND) => {
   if (handlertype == HANDLERENUM.COMMAND) {
-    let commands = new Map();
-    const commandFiles = fs.readdirSync(dir);
-    for (const file of commandFiles) {
-      const command = require(`${importdir}${file}`);
-      const co = new command();
-      commands.set(co.name, co);
-    }
-
+    let commands = getCommands(getEdirs);
     bot.on("message", (ctx) => {
-      console.log("e");
-
-      console.log("e1");
-
       let eventsl = getEvents(getEdirs());
       if (ctx.message.sticker) {
-        console.log("E#");
         execStickerEv(ctx, eventsl);
         return;
       } else if (ctx.message.photo) {
-        returnl;
+        execPhotoEv(ctx, eventsl);
+        return;
+      } else if (ctx.message.audio) {
       }
 
       const message = ctx.message;
@@ -108,9 +114,7 @@ const handlerInit = (
         console.error(error);
       }
     });
-    console.log("e3");
   }
-  console.log("Heyyyyyyy");
   let events = getEvents(getEdirs());
   events.forEach((ev) => {
     bot.on(ev.type, (ctx) => {
@@ -129,5 +133,5 @@ module.exports = {
   Command,
   Event,
   setEdirs,
-  getEdirs,
+  getEdirs, // for debugging purposes only
 };

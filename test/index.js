@@ -1,5 +1,5 @@
 const { Telegraf } = require("telegraf");
-const bot = new Telegraf("1842569805:AAH32qXlyTpv4vx-Bn9Sr2p68YsuXJeDrPc");
+const bot = new Telegraf("your-telegraf-token-here");
 const cmdh = require("../index");
 
 cmdh.setEdirs(
@@ -9,18 +9,8 @@ cmdh.setEdirs(
   `${__dirname}/events/`
 );
 
-cmdh.handlerInit(
-  bot,
-  cmdh.HANDLERENUM.COMMAND,
-  `${__dirname}\\commands`,
-  `${__dirname}/commands/`
-);
+cmdh.handlerInit(bot, cmdh.HANDLERENUM.COMMAND);
 
-cmdh.handlerInit(
-  bot,
-  cmdh.HANDLERENUM.EVENT,
-  `${__dirname}\\events`,
-  `${__dirname}/events/`
-);
+cmdh.handlerInit(bot, cmdh.HANDLERENUM.EVENT);
 
 bot.launch();
