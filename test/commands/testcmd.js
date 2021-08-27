@@ -5,8 +5,8 @@ class TESTCMD extends Command {
     super();
     this.name = "testcmd";
   }
-  execute(ctx) {
-    ctx.reply("testjroejf");
+  execute(ctx, message, args) {
+    ctx.reply(string(message.from.id) + " " + args[0]);
   }
 }
 
