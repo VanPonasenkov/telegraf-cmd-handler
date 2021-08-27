@@ -46,6 +46,8 @@ class TestCmd extends Command {
 module.exports = TestCmd;
 ```
 
+# Example Event
+
 ```javascript
 // /events/testevent.js
 
