@@ -2,7 +2,7 @@
 
 A simple Command and Event Handler Wrapper for telegraf.js library
 
-# example
+# Example
 
 ```javascript
 const { Telegraf } = require("telegraf");
