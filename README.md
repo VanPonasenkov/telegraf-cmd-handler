@@ -1,4 +1,4 @@
-# telegraf-cmd-handler
+# telegraf-handlers
 
 A simple Command and Event Handler Wrapper for telegraf.js library
 
